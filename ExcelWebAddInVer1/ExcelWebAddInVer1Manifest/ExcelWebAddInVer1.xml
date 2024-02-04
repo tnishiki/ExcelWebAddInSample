@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--Created:ce44715c-8c4e-446b-879c-ea9ebe0f09c8-->
+<OfficeApp
+          xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides"
+          xsi:type="TaskPaneApp">
+
+  <!-- 基本設定の開始: オーバーライドが提供されない限りすべてのバージョンの Office で使用される、アドインのメタデータ。 -->
+
+  <!-- 重要! アドインの ID は一意である必要があります。このマニフェストを再利用する場合は、この ID を新しい GUID に変更してください。 -->
+  <Id>4e24bcd5-6f3f-4f5f-a2f9-d6c7559a2645</Id>
+
+  <!--バージョン。ストアから更新がトリガーされるのは、バージョンに変更があった場合だけです。 -->
+  <Version>1.0.0.0</Version>
+  <ProviderName>OECU</ProviderName>
+  <DefaultLocale>ja-JP</DefaultLocale>
+  <!-- アドインの表示名。ストアのほか、Office UI のさまざまな場所 (アドイン ダイアログなど) で使われます。 -->
+  <DisplayName DefaultValue="アドオン" />
+  <Description DefaultValue="アドオンです"/>
+  <!-- アドインのアイコン。インストール画面やアドイン ダイアログで使います。 -->
+  <IconUrl DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+
+  <SupportUrl DefaultValue="https://www.osakac.ac.jp/" />
+  <!-- ナビゲーションで許可されるドメイン。たとえば、ShowTaskpane を使った href リンクによるナビゲーションは、ドメインがこの一覧に含まれている場合にのみ許可されます。 -->
+  <AppDomains>
+    <AppDomain>AppDomain1</AppDomain>
+    <AppDomain>AppDomain2</AppDomain>
+    <AppDomain>AppDomain3</AppDomain>
+  </AppDomains>
+  <!--基本設定の終了。 -->
+
+  <!--TaskPane モードの統合の開始。このセクションは、VersionOverrides がない場合か、Office クライアント バージョンがアドイン コマンドをサポートしない場合に使用します。 -->
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="~remoteAppUrl/Home.html" />
+  </DefaultSettings>
+  <!-- TaskPane モードの統合の終了。  -->
+
+  <Permissions>ReadWriteDocument</Permissions>
+
+  <!-- アドイン コマンド モードの統合の開始。 -->
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+
+    <!-- ホスト ノードが必須です。 -->
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <DesktopFormFactor>
+          <!--
+          初回インストール時のガイドを提供します。GetStarted は、アドインが初めて起動されたときに
+          表示される吹き出しです。
+          -->
+          <GetStarted>
+            <Title resid="MyApp.GetStarted.Title"/>
+            <!-- "はじめに" のコールアウトの説明。resid は LongString リソースをポイントします -->
+            <Description resid="MyApp.GetStarted.Description"/>
+            <!-- アドインの使用方法の詳細を示す URL リソースを指します。 -->
+            <LearnMoreUrl resid="MyApp.GetStarted.LearnMoreUrl"/>
+          </GetStarted>
+
+          <!--
+          関数ファイルは、ExecuteAction の関数が呼び出される JavaScript を含んだ
+          HTML ページです。FunctionFile は、コードビハインド ExecuteFunction と
+          考えることができます。 -->
+          <FunctionFile resid="MyApp.DesktopFunctionFile.Url" />
+
+          <!-- PrimaryCommandSurface は Office のメイン リボンです。 -->
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <!--
+            OfficeTab を使って既存のタブを拡張します。
+            CustomTab を使って新しいタブを作成します。 -->
+            <CustomTab id="MyApp.Tab">
+              <Group id="MyApp.Tab.Group1">
+                <!--
+                グループのラベル。
+                resid は、短い文字列リソースをポイントしている必要があります。
+                -->
+                <Label resid="MyApp.Group1Label" />
+                <!--
+                アイコン。
+                必須のサイズは、16、32、80 です。PNGアイコンを使用します。
+                オプションは、20、24、40、48、64 があります。URL で指定します。
+                -->
+                <Icon>
+                  <bt:Image size="16" resid="MyApp.tpicon_16x16" />
+                  <bt:Image size="32" resid="MyApp.tpicon_32x32" />
+                  <bt:Image size="80" resid="MyApp.tpicon_80x80" />
+                </Icon>
+
+                <!-- ボタン -->
+                <Control xsi:type="Button" id="MyApp.FuncButton1">
+                  <Label resid="MyApp.FuncButton1.Label"/>
+                  <Supertip>
+                    <Title resid="MyApp.FuncButton1.Label" />
+                    <Description resid="MyApp.FuncButton1.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="MyApp.tpicon_16x16" />
+                    <bt:Image size="32" resid="MyApp.tpicon_32x32" />
+                    <bt:Image size="80" resid="MyApp.tpicon_80x80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>GetData</FunctionName>
+                  </Action>
+                </Control>
+                <!-- ボタン -->
+                <Control xsi:type="Button" id="MyApp.TaskpaneButton">
+                  <Label resid="MyApp.TaskpaneButton.Label" />
+                  <Supertip>
+                    <!-- ヒントのタイトル。-->
+                    <Title resid="MyApp.TaskpaneButton.Label" />
+                    <!-- ヒントの説明 -->
+                    <Description resid="MyApp.TaskpaneButton.Tooltip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="MyApp.tpicon_16x16" />
+                    <bt:Image size="32" resid="MyApp.tpicon_32x32" />
+                    <bt:Image size="80" resid="MyApp.tpicon_80x80" />
+                  </Icon>
+
+                  <!--
+                  コマンドがトリガーされた (たとえば、リボンがクリックされた) ときに
+                  実行される内容です。サポートされるアクションは、ExecuteFunction 
+                  または ShowTaskpane です。 
+                  -->
+                  <Action xsi:type="ShowTaskpane">
+                    <TaskpaneId>ButtonId1</TaskpaneId>
+                    <!-- 作業ウィンドウに表示する場所の URL リソース ID を指定します。 -->
+                    <SourceLocation resid="MyApp.Taskpane.Url" />
+                  </Action>
+                </Control>
+              </Group>
+              <Label resid="MyApp.Tab.Toplabel"/>
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+
+    <!--
+    文字リソース
+    -->
+    <Resources>
+      <bt:Images>
+        <bt:Image id="MyApp.FucButton1.Icon16" DefaultValue="~remoteAppUrl/Images/Button16x16.png" />
+        <bt:Image id="MyApp.tpicon_16x16" DefaultValue="~remoteAppUrl/Images/Button16x16.png" />
+        <bt:Image id="MyApp.tpicon_32x32" DefaultValue="~remoteAppUrl/Images/Button32x32.png" />
+        <bt:Image id="MyApp.tpicon_80x80" DefaultValue="~remoteAppUrl/Images/Button80x80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="MyApp.DesktopFunctionFile.Url" DefaultValue="~remoteAppUrl/Functions/FunctionFile.html" />
+        <bt:Url id="MyApp.Taskpane.Url" DefaultValue="~remoteAppUrl/Home.html" />
+        <bt:Url id="MyApp.GetStarted.LearnMoreUrl" DefaultValue="https://MyApp.com/" />
+      </bt:Urls>
+      <!-- 短い文字列の最大文字数==125。 -->
+      <bt:ShortStrings>
+        <bt:String id="MyApp.Group1Label" DefaultValue="グループ１" />
+
+        <bt:String id="MyApp.FuncButton1.Label" DefaultValue="ボタン１"/>
+        <bt:String id="MyApp.Tab.Toplabel" DefaultValue="MyApp" />
+        <bt:String id="MyApp.TaskpaneButton.Label" DefaultValue="Show Taskpane" />
+        <bt:String id="MyApp.GetStarted.Title" DefaultValue="CampusXs のアドオンはこちらです" />
+      </bt:ShortStrings>
+      <!-- 長い文字列の最大文字数==250。 -->
+      <bt:LongStrings>
+        <bt:String id="MyApp.FuncButton1.Tooltip" DefaultValue="ボタン１"/>
+        <bt:String id="MyApp.TaskpaneButton.Tooltip" DefaultValue="タスクパネルを表示" />
+        <bt:String id="MyApp.GetStarted.Description" DefaultValue="ボタンを押すとタスクペインにガイドを表示します。" />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
+</OfficeApp>
